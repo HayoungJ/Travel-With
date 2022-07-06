@@ -1,8 +1,9 @@
-@value mediaQuery: 62rem;
+@value media-query: 62rem;
 
-@value basicFontSize: 16px;
-@value mobileFontSize: 14px;
-@value largeFontSize: 1.15rem;
-@value extraLargeFontSize: 1.3rem;
-@value smallFontSize: 0.85rem;
-@value extraSmallFontSize: 0.7rem;
+@value basic-font-size: 16px;
+@value mobile-font-size: 14px;
+@value large-font-size: 1.1rem;
+@value extra-large-font-size: 1.3rem;
+@value logo-font-size: 6rem;
+@value small-font-size: 0.85rem;
+@value extra-small-font-size: 0.7rem;
