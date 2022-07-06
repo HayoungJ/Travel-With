@@ -1,5 +1,5 @@
 @value logo-font-size, large-font-size, small-font-size from '../../common/sizes.css';
-@value basic-green, dark-green, light-grey, basic-white, basic-grey from '../../common/colors.css';
+@value basic-orange, basic-blue, light-blue, dark-blue, light-grey, basic-white, basic-grey from '../../common/colors.css';
 
 .container {
   width: 35rem;
@@ -11,7 +11,7 @@
 
 .box {
   width: 100%;
-  border: 1px solid dark-green;
+  border: 1px solid dark-blue;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
@@ -19,7 +19,7 @@
 
 .logo {
   margin-top: 2rem;
-  color: basic-green;
+  color: basic-orange;
   font-family: 'really-free';
   font-size: logo-font-size;
 }
@@ -42,7 +42,7 @@
 
 .input:focus,
 .input:active {
-  border: 2px solid dark-green;
+  border: 2px solid basic-blue;
 }
 
 .button {
@@ -53,7 +53,7 @@
   border: none;
   border-radius: 2rem;
   color: basic-white;
-  background-color: dark-green;
+  background-color: basic-blue;
 }
 
 .link-button {
@@ -68,7 +68,7 @@
 .sns {
   width: 100%;
   margin-top: 1.2rem;
-  border-top: 1px dashed dark-green;
+  border-top: 1px dashed light-grey;
 }
 
 .sns-container {
@@ -77,7 +77,7 @@
 }
 
 .sns-button {
-  border: 2px solid dark-green;
+  border: 2px solid basic-blue;
   border-radius: 2rem;
   width: 30%;
   height: 2rem;
@@ -87,7 +87,7 @@
 
 .sns-button:hover {
   color: basic-white;
-  background-color: dark-green;
+  background-color: basic-blue;
 }
 
 .description {
