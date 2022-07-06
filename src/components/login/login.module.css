@@ -1,0 +1,101 @@
+@value logo-font-size, large-font-size, small-font-size from '../../common/sizes.css';
+@value basic-green, dark-green, light-grey, basic-white, basic-grey from '../../common/colors.css';
+
+.container {
+  width: 35rem;
+  text-align: center;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.box {
+  width: 100%;
+  border: 1px solid dark-green;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.logo {
+  margin-top: 2rem;
+  color: basic-green;
+  font-family: 'really-free';
+  font-size: logo-font-size;
+}
+
+.login {
+  width: 20rem;
+  margin-top: 1.2rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  height: 3rem;
+  margin-bottom: 0.8rem;
+  padding: 0.3rem 1.5rem;
+  border: 2px solid light-grey;
+}
+
+.input:focus,
+.input:active {
+  border: 2px solid dark-green;
+}
+
+.button {
+  margin-top: 0.4rem;
+  width: 30%;
+  height: 2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 2rem;
+  color: basic-white;
+  background-color: dark-green;
+}
+
+.link-button {
+  margin-top: 1.2rem;
+  font-size: small-font-size;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+.sns {
+  width: 100%;
+  margin-top: 1.2rem;
+  border-top: 1px dashed dark-green;
+}
+
+.sns-container {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.sns-button {
+  border: 2px solid dark-green;
+  border-radius: 2rem;
+  width: 30%;
+  height: 2rem;
+  background-color: basic-white;
+  font-weight: bold;
+}
+
+.sns-button:hover {
+  color: basic-white;
+  background-color: dark-green;
+}
+
+.description {
+  margin-top: 1.2rem;
+}
+
+.text {
+  font-size: small-font-size;
+  color: basic-grey;
+  line-height: 1.5;
+}
