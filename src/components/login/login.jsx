@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { global } from '../../index.module.css';
 import styles from './login.module.css';
 
 const Login = (props) => {
   return (
     <div className={styles.container}>
       <div className={styles.box}>
-        <h1 className={styles.logo}>Travel With</h1>
+        <h1 className={styles.logo}>
+          <span className={'logo-style'}>Travel With</span>
+        </h1>
         <section className={styles.login}>
           <input className={styles.input} type="text" placeholder="Email" />
           <input

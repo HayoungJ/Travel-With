@@ -1,4 +1,5 @@
-@value basicFontSize, mobileFontSize from './common/sizes.css';
+@value basic-font-size, mobile-font-size from './common/sizes.css';
+@value basic-black, logo-gradient from './common/colors.css';
 
 body {
   margin: 0;
@@ -7,10 +8,66 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: basicFontSize;
+  font-size: basic-font-size;
+  color: basic-black;
+}
+
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+input {
+  outline: none;
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:focus,
+a:visited {
+  color: basic-black;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* font for logo */
+@font-face {
+  font-family: 'really-free';
+  src: url('./static/fonts/ReallyFree-ALwl7.ttf');
+}
+
+/* logo color */
+:global(.logo-style) {
+  font-family: 'really-free';
+
+  background-image: logo-gradient;
+  background-size: 100%;
+  background-repeat: repeat;
+
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

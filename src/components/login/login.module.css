@@ -19,14 +19,12 @@
 
 .logo {
   margin-top: 2rem;
-  color: basic-orange;
-  font-family: 'really-free';
   font-size: logo-font-size;
 }
 
 .login {
   width: 20rem;
-  margin-top: 1.2rem;
+  margin-top: 0.9rem;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
@@ -35,7 +33,7 @@
 .input {
   width: 100%;
   height: 3rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.4rem;
   padding: 0.3rem 1.5rem;
   border: 2px solid light-grey;
 }
@@ -46,7 +44,7 @@
 }
 
 .button {
-  margin-top: 0.4rem;
+  margin-top: 0.85rem;
   width: 30%;
   height: 2rem;
   font-weight: bold;
