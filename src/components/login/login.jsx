@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { global } from '../../index.module.css';
 import styles from './login.module.css';
 
 const Login = (props) => {
@@ -19,7 +18,7 @@ const Login = (props) => {
           />
           <button className={styles.button}>Login</button>
           <Link to="register" className={styles['link-button']}>
-            아직 계정이 없나요?
+            아직 계정이 없으신가요?
           </Link>
         </section>
         <section className={styles.sns}>
