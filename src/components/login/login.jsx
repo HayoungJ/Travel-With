@@ -1,8 +1,43 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './login.module.css';
 
-const Login = (props) => {
+const Login = ({ authService }) => {
+  const [inputs, setInputs] = useState({
+    email: '',
+    password: '',
+  });
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  const navigate = useNavigate();
+
+  const onEmailLogin = async () => {
+    const userId = await authService.emailLogin(inputs.email, inputs.password);
+    userId && goToTravel(userId);
+  };
+
+  const onSnsLogin = async (event) => {
+    const userId = await authService.snsLogin(event.target.name);
+    userId && goToTravel(userId);
+  };
+
+  const goToTravel = (userId) => {
+    navigate('/travel', { state: { id: userId } });
+  };
+
+  const handleChange = (event) => {
+    event.target.value = event.target.value.trim();
+    const updatedInputs = { ...inputs };
+    updatedInputs[event.target.name] = event.target.value;
+    const updatedIsDisabled =
+      updatedInputs.email === '' || updatedInputs.password === ''
+        ? true
+        : false;
+    setInputs(updatedInputs);
+    setIsDisabled(updatedIsDisabled);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.box}>
@@ -10,13 +45,27 @@ const Login = (props) => {
           <span className={'logo-style'}>Travel With</span>
         </h1>
         <section className={styles.login}>
-          <input className={styles.input} type="text" placeholder="Email" />
           <input
             className={styles.input}
-            type="password"
-            placeholder="Password"
+            name="email"
+            type="text"
+            placeholder="이메일"
+            onChange={handleChange}
           />
-          <button className={styles.button}>Login</button>
+          <input
+            className={styles.input}
+            name="password"
+            type="password"
+            placeholder="비밀번호"
+            onChange={handleChange}
+          />
+          <button
+            className={styles.button}
+            onClick={onEmailLogin}
+            disabled={isDisabled}
+          >
+            로그인
+          </button>
           <Link to="register" className={styles['link-button']}>
             아직 계정이 없으신가요?
           </Link>
@@ -24,7 +73,13 @@ const Login = (props) => {
         <section className={styles.sns}>
           <ul className={styles['sns-container']}>
             <li>
-              <button className={styles['sns-button']}>Google</button>
+              <button
+                className={styles['sns-button']}
+                name="google"
+                onClick={onSnsLogin}
+              >
+                Google
+              </button>
             </li>
           </ul>
         </section>
