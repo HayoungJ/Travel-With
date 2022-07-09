@@ -19,7 +19,7 @@ const Register = ({ authService }) => {
       inputs.email,
       inputs.password
     );
-    goToTravel(userId);
+    userId && goToTravel(userId);
   };
 
   const goToTravel = (userId) => {
