@@ -10,6 +10,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: basic-font-size;
   color: basic-black;
+  position: relative;
 }
 
 ul,
@@ -43,7 +44,8 @@ h3,
 h4,
 h5,
 h6,
-p {
+p,
+span {
   display: block;
   margin: 0;
   padding: 0;
