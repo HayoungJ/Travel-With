@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/login/login';
 import Dashboard from './components/dashboard/dashboard';
 import Register from './components/register/register';
+import SelectTravel from './components/select_travel/select_travel';
 
 const App = ({ authService }) => {
   return (
@@ -15,7 +16,10 @@ const App = ({ authService }) => {
             path="/register"
             element={<Register authService={authService} />}
           />
-          <Route path="travel">
+          <Route
+            path="travel"
+            element={<SelectTravel authService={authService} />}
+          >
             <Route path=":travelId" element={<Dashboard />} />
           </Route>
         </Routes>
