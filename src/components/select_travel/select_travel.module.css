@@ -1,0 +1,11 @@
+@value light-blue, white-blue from '../../common/colors.css';
+@value basic-font-size from '../../common/sizes.css';
+
+.selection-container {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4rem;
+}

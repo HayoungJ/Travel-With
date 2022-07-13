@@ -1,0 +1,51 @@
+@value light-blue, basic-black from '../../common/colors.css';
+@value basic-font-size from '../../common/sizes.css';
+
+.selection {
+  width: 30rem;
+}
+
+.option {
+  width: 100%;
+  height: 4rem;
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.option:last-child {
+  margin-bottom: 0;
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  border: 3px solid light-blue;
+  border-radius: 2rem;
+  box-sizing: border-box;
+  padding: 1.5rem;
+  font-size: basic-font-size;
+}
+
+.calendar-wrapper,
+.calendar-wrapper > div {
+  width: 100%;
+  height: 100%;
+}
+
+.calendar-input {
+  width: 100%;
+  height: 100%;
+  border: 3px solid light-blue;
+  border-radius: 2rem;
+  padding: 1.5rem;
+  font-size: basic-font-size;
+  cursor: pointer;
+}
+
+.calendar-input::placeholder {
+  color: basic-black;
+}
