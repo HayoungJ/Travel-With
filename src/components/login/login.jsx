@@ -4,26 +4,26 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './login.module.css';
 
 const Login = ({ authService }) => {
+  const navigate = useNavigate();
+
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
   });
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const navigate = useNavigate();
-
   const onEmailLogin = async () => {
-    const userId = await authService.emailLogin(inputs.email, inputs.password);
-    userId && goToTravel(userId);
+    const user = await authService.emailLogin(inputs.email, inputs.password);
+    user && goToSelect({ name: user.displayName, id: user.uid });
   };
 
   const onSnsLogin = async (event) => {
-    const userId = await authService.snsLogin(event.target.name);
-    userId && goToTravel(userId);
+    const user = await authService.snsLogin(event.target.name);
+    user && goToSelect({ name: user.displayName, id: user.uid });
   };
 
-  const goToTravel = (userId) => {
-    navigate('/travel', { state: { id: userId } });
+  const goToSelect = (userInfo) => {
+    navigate('/select', { state: { userInfo } });
   };
 
   const handleChange = (event) => {

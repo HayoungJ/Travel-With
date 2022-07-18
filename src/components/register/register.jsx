@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './register.module.css';
 
 const Register = ({ authService }) => {
+  const navigate = useNavigate();
+
   const [inputs, setInputs] = useState({
     name: '',
     email: '',
@@ -11,19 +13,17 @@ const Register = ({ authService }) => {
   });
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const navigate = useNavigate();
-
   const onRegister = async () => {
-    const userId = await authService.register(
+    const user = await authService.register(
       inputs.name,
       inputs.email,
       inputs.password
     );
-    userId && goToTravel(userId);
+    user && goToSelect({ name: user.displayName, id: user.uid });
   };
 
-  const goToTravel = (userId) => {
-    navigate('/travel', { state: { id: userId } });
+  const goToSelect = (userInfo) => {
+    navigate('/select', { state: { userInfo } });
   };
 
   const handleChange = (event) => {

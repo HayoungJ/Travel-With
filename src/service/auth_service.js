@@ -1,6 +1,7 @@
 import { firebaseAuth, googleProvider } from './firebase';
 import {
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -20,7 +21,7 @@ class AuthService {
         displayName: name,
       });
 
-      return userCredential.user.uid;
+      return userCredential.user;
     } catch (error) {
       alert(this.defineError(error.code));
     }
@@ -34,7 +35,7 @@ class AuthService {
         password
       );
 
-      return userCredential.user.uid;
+      return userCredential.user;
     } catch (error) {
       alert(this.defineError(error.code));
     }
@@ -42,15 +43,21 @@ class AuthService {
 
   async snsLogin(providerName) {
     try {
-      const result = await signInWithPopup(
+      const userCredential = await signInWithPopup(
         firebaseAuth,
         this.getProvider(providerName)
       );
 
-      return result.user.uid;
+      return userCredential.user;
     } catch (error) {
       alert(this.defineError(error.code));
     }
+  }
+
+  onAuthChange(onUserChange) {
+    onAuthStateChanged(firebaseAuth, (user) => {
+      onUserChange(user);
+    });
   }
 
   logout() {
