@@ -1,25 +1,56 @@
-import React, { forwardRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import styles from './new_travel.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import SelectTravelButton from '../select_travel_button/select_travel_button';
+import { useNavigate } from 'react-router-dom';
 
-const NewTravel = () => {
+const NewTravel = ({ travelRepository, handleSelect, userId }) => {
+  const navigate = useNavigate();
+
+  const titleRef = useRef();
+  const placeRef = useRef();
+
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+  const creatNewTravel = (travelId, info) => {
+    travelRepository.saveTravel(travelId, info);
+  };
+
+  const handleSubmit = () => {
+    const travelId = Date.now().toString();
+    const info = {
+      travelId,
+      title: titleRef.current.value,
+      place: placeRef.current.value,
+      startDate,
+      endDate,
+      owner: userId,
+      editor: userId,
+    };
+    creatNewTravel(travelId, info);
+    navigate(`/travel/${travelId}`);
+  };
 
   return (
     <>
       <ul className={styles.selection}>
         <li className={styles.option}>
           <input
+            ref={titleRef}
             className={styles.input}
             type="text"
             placeholder="여행 계획 이름"
           />
         </li>
         <li className={styles.option}>
-          <input className={styles.input} type="text" placeholder="여행 장소" />
+          <input
+            ref={placeRef}
+            className={styles.input}
+            type="text"
+            placeholder="여행 장소"
+          />
         </li>
         <li className={styles.option}>
           <DatePicker
@@ -47,7 +78,10 @@ const NewTravel = () => {
           />
         </li>
       </ul>
-      <SelectTravelButton />
+      <SelectTravelButton
+        handleSelect={handleSelect}
+        handleSubmit={handleSubmit}
+      />
     </>
   );
 };
