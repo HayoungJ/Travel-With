@@ -43,7 +43,7 @@ const SelectTravel = ({ authService, travelRepository }) => {
     authService.onAuthChange((user) => {
       if (user) {
         setUserName(user.displayName);
-        setUserId(user.setUserId);
+        setUserId(user.uid);
       } else {
         navigate('/');
       }
