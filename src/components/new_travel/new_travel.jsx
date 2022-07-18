@@ -21,7 +21,7 @@ const NewTravel = ({ travelRepository, handleSelect, userId }) => {
   const handleSubmit = () => {
     const travelId = Date.now().toString();
     const info = {
-      travelId,
+      id: travelId,
       title: titleRef.current.value,
       place: placeRef.current.value,
       startDate,
