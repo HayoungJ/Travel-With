@@ -5,7 +5,7 @@ import Dashboard from './components/dashboard/dashboard';
 import Register from './components/register/register';
 import SelectTravel from './components/select_travel/select_travel';
 
-const App = ({ authService }) => {
+const App = ({ authService, travelRepository }) => {
   return (
     <div className={styles.app}>
       <BrowserRouter>
@@ -17,11 +17,16 @@ const App = ({ authService }) => {
             element={<Register authService={authService} />}
           />
           <Route
-            path="travel"
-            element={<SelectTravel authService={authService} />}
-          >
-            <Route path=":travelId" element={<Dashboard />} />
-          </Route>
+            exact
+            path="select"
+            element={
+              <SelectTravel
+                authService={authService}
+                travelRepository={travelRepository}
+              />
+            }
+          />
+          <Route path="travel/:travelId" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </div>
