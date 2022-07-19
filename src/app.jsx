@@ -4,6 +4,7 @@ import Login from './components/login/login';
 import Dashboard from './components/dashboard/dashboard';
 import Register from './components/register/register';
 import SelectTravel from './components/select_travel/select_travel';
+import { useState } from 'react';
 
 const App = ({ authService, travelRepository }) => {
   return (
@@ -26,7 +27,10 @@ const App = ({ authService, travelRepository }) => {
               />
             }
           />
-          <Route path="travel/:travelId" element={<Dashboard />} />
+          <Route
+            path="travel/:travelId"
+            element={<Dashboard travelRepository={travelRepository} />}
+          />
         </Routes>
       </BrowserRouter>
     </div>
