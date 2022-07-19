@@ -6,7 +6,7 @@ import Register from './components/register/register';
 import SelectTravel from './components/select_travel/select_travel';
 import { useState } from 'react';
 
-const App = ({ authService, travelRepository }) => {
+const App = ({ authService, travelRepository, kakaoMap }) => {
   return (
     <div className={styles.app}>
       <BrowserRouter>
@@ -29,7 +29,12 @@ const App = ({ authService, travelRepository }) => {
           />
           <Route
             path="travel/:travelId"
-            element={<Dashboard travelRepository={travelRepository} />}
+            element={
+              <Dashboard
+                travelRepository={travelRepository}
+                kakaoMap={kakaoMap}
+              />
+            }
           />
         </Routes>
       </BrowserRouter>
