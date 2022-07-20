@@ -1,0 +1,73 @@
+@value dark-blue, light-grey, basic-white, light-blue, basic-black, basic-red from '../../common/colors.css';
+@value small-font-size, large-font-size from '../../common/sizes.css';
+
+.node {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-flow: row wrap;
+  padding: 0 5%;
+}
+
+.form {
+  flex: 1 1 50%;
+  border: 1px solid dark-blue;
+  border-radius: 0.5rem;
+  padding: 0.8rem 1.3rem;
+}
+
+.input-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.1rem;
+}
+
+.label {
+  flex: 0 0 4rem;
+  font-size: small-font-size;
+  font-weight: bold;
+  padding: 0.5rem 0;
+}
+
+.input {
+  flex: 1 1 0;
+  border: 1px solid basic-white;
+  padding: 0.5rem;
+}
+
+.input:focus,
+.input:active {
+  border: 1px solid light-grey;
+}
+
+.button-wrap {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.5rem;
+}
+
+.button {
+  width: 2rem;
+  border: 0;
+  color: basic-black;
+  background-color: transparent;
+}
+
+.button.flag {
+  margin-bottom: 1.5rem;
+}
+
+.button.flag.active {
+  color: light-blue;
+}
+
+.button.flag:hover {
+  color: light-blue;
+}
+
+.button.delete:hover {
+  color: basic-red;
+}
