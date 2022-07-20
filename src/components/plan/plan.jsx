@@ -17,6 +17,7 @@ const Plan = ({
           createTravelNode={createOrUpdateTravelNode}
           searchAtMap={searchAtMap}
         />
+        <hr className={styles.hr} />
         {Object.keys(travelNode).map((key) => (
           <EditTravelNode
             key={key}
