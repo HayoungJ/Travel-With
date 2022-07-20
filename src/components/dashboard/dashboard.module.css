@@ -38,3 +38,10 @@
   background-color: dark-blue;
   color: basic-white;
 }
+
+.scroll-area {
+  width: 100%;
+  height: calc(100% - 6rem);
+  overflow: scroll;
+  margin-top: 2rem;
+}
