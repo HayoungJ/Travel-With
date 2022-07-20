@@ -2,10 +2,18 @@
 @value small-font-size, extra-small-font-size from '../../common/sizes.css';
 
 .node {
-  flex: 0 0 45%;
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.form {
+  width: 90%;
   border: 1px solid dark-blue;
   border-radius: 0.5rem;
-  padding: 1rem 1.5rem;
+  padding: 0.8rem 1.3rem;
   box-sizing: border-box;
 }
 
@@ -13,7 +21,7 @@
   width: 100%;
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.1rem;
 }
 
 .label {
@@ -36,7 +44,7 @@
 
 .button-wrap {
   margin-right: -0.5rem;
-  margin-top: 1rem;
+  margin-top: 0.2rem;
   display: flex;
   justify-content: flex-end;
 }
@@ -46,8 +54,11 @@
   border: 0;
   padding: 0.5rem 0;
   font-size: extra-small-font-size;
+  background-color: light-blue;
 }
 
-.button.add {
-  background-color: light-blue;
+.hr {
+  width: 100%;
+  margin-top: 1.5rem;
+  border-top: 1px dashed light-grey;
 }
