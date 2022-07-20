@@ -1,0 +1,31 @@
+@value dark-blue, light-grey, light-blue, basic-black from '../../common/colors.css';
+@value extra-small-font-size from '../../common/sizes.css';
+
+.list {
+  width: 100%;
+  display: flex;
+  border-top: 1px solid dark-blue;
+}
+
+.input {
+  width: 5rem;
+  border: 0;
+  border-right: 1px solid dark-blue;
+  padding: 1rem;
+}
+
+.input:first-child {
+  width: 10rem;
+}
+
+.input:nth-child(4) {
+  flex: 1 1 auto;
+}
+
+.button {
+  width: 1.5rem;
+  border: 0;
+  background-color: transparent;
+  font-size: extra-small-font-size;
+  color: basic-black;
+}

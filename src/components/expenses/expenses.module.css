@@ -1,0 +1,81 @@
+@value dark-blue, light-grey, light-blue from '../../common/colors.css';
+@value small-font-size, basic-font-size from '../../common/sizes.css';
+
+.expenses {
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  font-size: small-font-size;
+}
+
+.calculator {
+  width: 90%;
+  display: flex;
+  flex-flow: row nowrap;
+  border: 1px solid dark-blue;
+  border-radius: 0.5rem;
+}
+
+.people-number {
+  flex: 0 0 10rem;
+  padding: 1rem;
+  border: 0;
+  border-right: 1px solid dark-blue;
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.personal-expenses {
+  flex: 1 1 auto;
+  padding: 1rem;
+}
+
+.hr {
+  width: 100%;
+  border-top: 1px dashed light-grey;
+  margin: 2rem 0;
+}
+
+.table {
+  width: 90%;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  border: 1px solid dark-blue;
+  border-radius: 0.5rem 0.5rem 0 0;
+  overflow: hidden;
+}
+
+.input {
+  width: 5rem;
+  border: 0;
+  border-right: 1px solid dark-blue;
+  padding: 1rem;
+}
+
+.input:first-child {
+  width: 10rem;
+}
+
+.input:nth-child(4) {
+  flex: 1 1 auto;
+}
+
+.button {
+  width: 1.5rem;
+  border: 0;
+  background-color: light-blue;
+  font-size: basic-font-size;
+}
+
+.body {
+  width: 100%;
+  flex: 1 1 50%;
+  border: 1px solid dark-blue;
+  border-top: 0;
+  border-radius: 0 0 0.5rem 0.5rem;
+  overflow: hidden;
+  margin-top: 1px;
+}
