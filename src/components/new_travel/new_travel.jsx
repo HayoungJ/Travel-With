@@ -24,8 +24,8 @@ const NewTravel = ({ travelRepository, handleSelect, userId }) => {
       id: travelId,
       title: titleRef.current.value,
       place: placeRef.current.value,
-      startDate,
-      endDate,
+      startDate: startDate.toString(),
+      endDate: endDate.toString(),
       owner: userId,
       editor: userId,
     };
