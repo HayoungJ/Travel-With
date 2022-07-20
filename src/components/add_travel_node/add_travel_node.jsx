@@ -69,7 +69,6 @@ const AddTravelNode = ({ createTravelNode, searchAtMap }) => {
           </button>
         </div>
       </form>
-      <hr className={styles.hr} />
     </li>
   );
 };
