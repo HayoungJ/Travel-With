@@ -20,6 +20,11 @@
 
 .input:nth-child(4) {
   flex: 1 1 auto;
+  text-align: right;
+}
+
+.input:nth-child(4)::placeholder {
+  text-align: left;
 }
 
 .button {
