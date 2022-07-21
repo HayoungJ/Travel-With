@@ -8,14 +8,14 @@ class TravelRepository {
     });
   }
 
-  saveTravelNode(travelId, node) {
-    set(ref(firebaseDatabase, `travels/${travelId}/nodes/${node.id}`), {
-      ...node,
+  saveTravelSubData(travelId, type, data) {
+    set(ref(firebaseDatabase, `travels/${travelId}/${type}/${data.id}`), {
+      ...data,
     });
   }
 
-  removeTravelNode(travelId, node) {
-    remove(ref(firebaseDatabase, `travels/${travelId}/nodes/${node.id}`));
+  removeTravelSubData(travelId, type, data) {
+    remove(ref(firebaseDatabase, `travels/${travelId}/${type}/${data.id}`));
   }
 
   syncTravel(travelId, onUpdate) {
