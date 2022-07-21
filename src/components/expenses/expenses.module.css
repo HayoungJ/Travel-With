@@ -1,5 +1,5 @@
-@value dark-blue, light-grey, light-blue from '../../common/colors.css';
-@value small-font-size, basic-font-size from '../../common/sizes.css';
+@value dark-blue, light-grey, light-blue, basic-black, basic-white from '../../common/colors.css';
+@value small-font-size, basic-font-size, extra-small-font-size from '../../common/sizes.css';
 
 .expenses {
   width: 100%;
@@ -25,9 +25,43 @@
   border-radius: 0.5rem 0 0 0.5rem;
 }
 
-.personal-expenses {
-  flex: 1 1 auto;
+.total {
+  flex: 1 1 40%;
   padding: 1rem;
+  border-right: 1px solid dark-blue;
+  position: relative;
+  text-align: right;
+}
+
+.total::before {
+  padding: 0 0.7rem;
+  text-align: center;
+  display: inline-block;
+  content: '총 사용 금액';
+  font-size: extra-small-font-size;
+  position: absolute;
+  left: 0;
+  top: -0.4rem;
+  background-color: basic-white;
+}
+
+.personal-expenses {
+  flex: 1 1 40%;
+  padding: 1rem;
+  position: relative;
+  text-align: right;
+}
+
+.personal-expenses::before {
+  padding: 0 0.7rem;
+  text-align: center;
+  display: inline-block;
+  content: '인당 사용 금액';
+  font-size: extra-small-font-size;
+  position: absolute;
+  left: 0;
+  top: -0.4rem;
+  background-color: basic-white;
 }
 
 .hr {
@@ -61,6 +95,11 @@
 
 .input:nth-child(4) {
   flex: 1 1 auto;
+  text-align: right;
+}
+
+.input:nth-child(4)::placeholder {
+  text-align: left;
 }
 
 .button {
