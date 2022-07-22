@@ -5,6 +5,7 @@ import { faFlag, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const EditTravelNode = ({
   node,
+  editable,
   updateTravelNode,
   removeTravelNode,
   searchAtMap,
@@ -52,6 +53,7 @@ const EditTravelNode = ({
             placeholder="제목"
             value={title}
             onChange={onChange}
+            disabled={!editable}
           />
         </div>
         <div className={styles['input-wrap']}>
@@ -66,6 +68,7 @@ const EditTravelNode = ({
               onChange(event);
               searchAtMap(event.currentTarget.value, handelMarkerSelect);
             }}
+            disabled={!editable}
           />
         </div>
         <div className={styles['input-wrap']}>
@@ -76,6 +79,7 @@ const EditTravelNode = ({
             placeholder="설명"
             value={description}
             onChange={onChange}
+            disabled={!editable}
           />
         </div>
       </form>
@@ -90,12 +94,14 @@ const EditTravelNode = ({
             <FontAwesomeIcon icon={faFlag} />
           </button>
         )}
-        <button
-          className={`${styles.button} ${styles.delete}`}
-          onClick={onDelete}
-        >
-          <FontAwesomeIcon icon={faTrashCan} />
-        </button>
+        {editable && (
+          <button
+            className={`${styles.button} ${styles.delete}`}
+            onClick={onDelete}
+          >
+            <FontAwesomeIcon icon={faTrashCan} />
+          </button>
+        )}
       </div>
     </li>
   );

@@ -6,6 +6,7 @@ import styles from './plan.module.css';
 const Plan = ({
   searchAtMap,
   travelNode,
+  editable,
   createOrUpdateTravelNode,
   removeTravelNode,
   handleDisplayMarker,
@@ -13,15 +14,18 @@ const Plan = ({
   return (
     <section className={styles.plan}>
       <ul className={styles.nodes}>
-        <AddTravelNode
-          createTravelNode={createOrUpdateTravelNode}
-          searchAtMap={searchAtMap}
-        />
-        <hr className={styles.hr} />
+        {editable && (
+          <AddTravelNode
+            createTravelNode={createOrUpdateTravelNode}
+            searchAtMap={searchAtMap}
+          />
+        )}
+        {editable && <hr className={styles.hr} />}
         {Object.keys(travelNode).map((key) => (
           <EditTravelNode
             key={key}
             node={travelNode[key]}
+            editable={editable}
             updateTravelNode={createOrUpdateTravelNode}
             removeTravelNode={removeTravelNode}
             searchAtMap={searchAtMap}

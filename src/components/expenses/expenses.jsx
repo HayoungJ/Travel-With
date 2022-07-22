@@ -2,7 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import ExpensesList from '../expenses_list/expenses_list';
 import styles from './expenses.module.css';
 
-const Expenses = ({ list, createOrUpdateExpenses, removeExpenses }) => {
+const Expenses = ({
+  list,
+  createOrUpdateExpenses,
+  removeExpenses,
+  editable,
+}) => {
   const formRef = useRef();
   const whereRef = useRef();
   const whenRef = useRef();
@@ -57,6 +62,7 @@ const Expenses = ({ list, createOrUpdateExpenses, removeExpenses }) => {
           type="number"
           placeholder="인원 수"
           onChange={onPeopleNumberChange}
+          disabled={!editable}
         />
         <div className={styles.total}>₩{total}</div>
         <div className={styles['personal-expenses']}>
@@ -67,40 +73,42 @@ const Expenses = ({ list, createOrUpdateExpenses, removeExpenses }) => {
       </article>
       <hr className={styles.hr} />
       <article className={styles.table}>
-        <form ref={formRef} className={styles.header}>
-          <input
-            ref={whereRef}
-            name="where"
-            className={styles.input}
-            placeholder="장소"
-          />
-          <input
-            ref={whenRef}
-            name="when"
-            className={styles.input}
-            placeholder="날짜"
-          />
-          <input
-            ref={categoryRef}
-            name="category"
-            className={styles.input}
-            placeholder="분류"
-          />
-          <input
-            name="spent"
-            className={styles.input}
-            placeholder="금액"
-            onChange={(event) => {
-              const numberValue = returnNumber(event.currentTarget.value);
-              const stringValue = returnWithFormatAndUnit(numberValue);
-              setSpent(numberValue);
-              event.currentTarget.value = stringValue;
-            }}
-          />
-          <button className={styles.button} onClick={onAdd}>
-            +
-          </button>
-        </form>
+        {editable && (
+          <form ref={formRef} className={styles.header}>
+            <input
+              ref={whereRef}
+              name="where"
+              className={styles.input}
+              placeholder="장소"
+            />
+            <input
+              ref={whenRef}
+              name="when"
+              className={styles.input}
+              placeholder="날짜"
+            />
+            <input
+              ref={categoryRef}
+              name="category"
+              className={styles.input}
+              placeholder="분류"
+            />
+            <input
+              name="spent"
+              className={styles.input}
+              placeholder="금액"
+              onChange={(event) => {
+                const numberValue = returnNumber(event.currentTarget.value);
+                const stringValue = returnWithFormatAndUnit(numberValue);
+                setSpent(numberValue);
+                event.currentTarget.value = stringValue;
+              }}
+            />
+            <button className={styles.button} onClick={onAdd}>
+              +
+            </button>
+          </form>
+        )}
         <ul className={styles.body}>
           {Object.keys(list).map((key) => (
             <ExpensesList

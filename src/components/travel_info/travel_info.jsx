@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './travel_info.module.css';
 import DatePicker from 'react-datepicker';
 
-const TravelInfo = ({ updateTravel, travelInfo }) => {
+const TravelInfo = ({ updateTravel, travelInfo, editable }) => {
   const { title, place } = travelInfo;
 
   const [startDate, setStartDate] = useState(
@@ -37,6 +37,7 @@ const TravelInfo = ({ updateTravel, travelInfo }) => {
           value={title ? title : ''}
           placeholder="여행 이름"
           onChange={onChange}
+          disabled={!editable}
         />
       </li>
       <li className={styles.info}>
@@ -46,6 +47,7 @@ const TravelInfo = ({ updateTravel, travelInfo }) => {
           value={place ? place : ''}
           placeholder="여행 장소"
           onChange={onChange}
+          disabled={!editable}
         />
       </li>
       <li className={`${styles.info} ${styles.date}`}>
@@ -67,6 +69,7 @@ const TravelInfo = ({ updateTravel, travelInfo }) => {
           endDate={endDate}
           dateFormat="yyyy/MM/dd"
           placeholderText="시작일"
+          disabled={!editable}
         />
         <p className={styles['date-deco']}>~</p>
         <DatePicker
@@ -88,6 +91,7 @@ const TravelInfo = ({ updateTravel, travelInfo }) => {
           minDate={startDate}
           dateFormat="yyyy/MM/dd"
           placeholderText="종료일"
+          disabled={!editable}
         />
       </li>
     </ul>

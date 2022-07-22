@@ -1,22 +1,25 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Expenses from '../expenses/expenses';
 import Header from '../header/header';
 import Map from '../map/map';
 import Plan from '../plan/plan';
+import TravelSetting from '../travel_setting/travel_setting';
 import styles from './dashboard.module.css';
 
 const Dashboard = ({ travelRepository, kakaoMap }) => {
   const params = useParams();
+  const user = JSON.parse(localStorage.getItem('loginUser'));
 
   const [travelId, setTravelId] = useState(null);
   const [travelInfo, setTravelInfo] = useState({});
-  const [buttonSwitch, setButtonSwitch] = useState('expenses');
+  const [buttonSwitch, setButtonSwitch] = useState('setting');
   const [map, setMap] = useState();
   const [mapMarkers, setMapMarkers] = useState({});
   const [travelNode, setTravelNode] = useState({});
   const [expensesList, setExpensesList] = useState({});
+  const [editable, setEditable] = useState(false);
 
   const createMap = (container) => {
     const newMap = kakaoMap.createMap(container);
@@ -92,6 +95,12 @@ const Dashboard = ({ travelRepository, kakaoMap }) => {
   }, [params]);
 
   useEffect(() => {
+    const editableIds = travelInfo.editor || [];
+    const editableUpdated = user && editableIds.includes(user.id);
+    setEditable(editableUpdated);
+  }, [user, travelInfo]);
+
+  useEffect(() => {
     if (!travelId) {
       return;
     }
@@ -106,7 +115,7 @@ const Dashboard = ({ travelRepository, kakaoMap }) => {
 
   return (
     <>
-      <Header />
+      <Header name={user.name} />
       <section className={styles.dashboard}>
         <div className={styles.container}>
           <Map
@@ -114,6 +123,7 @@ const Dashboard = ({ travelRepository, kakaoMap }) => {
             repositionMap={repositionMap}
             updateTravel={updateTravel}
             travelInfo={travelInfo}
+            editable={editable}
           />
         </div>
         <div className={styles.container}>
@@ -136,15 +146,17 @@ const Dashboard = ({ travelRepository, kakaoMap }) => {
             >
               경비
             </button>
-            <button
-              name="setting"
-              className={`${styles.button} ${
-                buttonSwitch === 'setting' && styles.active
-              }`}
-              onClick={onClick}
-            >
-              설정
-            </button>
+            {editable && (
+              <button
+                name="setting"
+                className={`${styles.button} ${
+                  buttonSwitch === 'setting' && styles.active
+                }`}
+                onClick={onClick}
+              >
+                설정
+              </button>
+            )}
           </nav>
           <div className={styles['scroll-area']}>
             {
@@ -158,6 +170,7 @@ const Dashboard = ({ travelRepository, kakaoMap }) => {
                     createOrUpdateTravelNode={createOrUpdateTravelNode}
                     removeTravelNode={removeTravelNode}
                     handleDisplayMarker={handleDisplayMarker}
+                    editable={editable}
                   />
                 ),
                 expenses: (
@@ -165,8 +178,10 @@ const Dashboard = ({ travelRepository, kakaoMap }) => {
                     list={expensesList}
                     createOrUpdateExpenses={createOrUpdateExpenses}
                     removeExpenses={removeExpenses}
+                    editable={editable}
                   />
                 ),
+                setting: <TravelSetting travelId={travelId} />,
               }[buttonSwitch]
             }
           </div>
