@@ -41,6 +41,10 @@
   border: 1px solid light-grey;
 }
 
+.input:disabled {
+  background-color: basic-white;
+}
+
 .button-wrap {
   display: flex;
   flex-flow: column nowrap;

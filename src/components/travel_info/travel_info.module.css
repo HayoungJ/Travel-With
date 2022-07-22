@@ -54,6 +54,10 @@
   cursor: pointer;
 }
 
+.calendar-input:disabled {
+  cursor: inherit;
+}
+
 .date-deco {
   display: flex;
   flex: 0 1 0;
