@@ -1,0 +1,92 @@
+@value dark-blue, basic-red, basic-white from '../../common/colors.css';
+
+.setting {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+.share {
+  width: 90%;
+  display: flex;
+  flex-flow: row wrap;
+  line-height: 1rem;
+  border: 1px solid dark-blue;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.title {
+  margin-right: 2rem;
+}
+
+.link {
+  margin-top: -1px;
+  cursor: pointer;
+}
+
+.participation {
+  width: 90%;
+  display: flex;
+  flex-flow: column nowrap;
+  border: 1px solid dark-blue;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 2rem;
+  box-sizing: border-box;
+}
+
+.table {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  padding: 1rem;
+  padding-top: 0;
+}
+
+.user {
+  display: flex;
+  flex-flow: row wrap;
+  flex: 1 1 40%;
+  margin-right: 1rem;
+  margin-top: 1rem;
+}
+
+.name {
+  margin-right: 1rem;
+  line-height: 1rem;
+}
+
+.remove {
+  background-color: transparent;
+  border: 0;
+  color: basic-red;
+  line-height: 1rem;
+  box-sizing: border-box;
+}
+
+.remove:hover {
+  font-weight: bold;
+}
+
+.delete {
+  width: 90%;
+  display: flex;
+  justify-content: flex-end;
+  line-height: 1rem;
+  margin-top: auto;
+  margin-bottom: 1rem;
+  justify-self: flex-end;
+  box-sizing: border-box;
+}
+
+.button {
+  padding: 0.5rem 2rem;
+  background-color: basic-red;
+  border: 0;
+  color: basic-white;
+  font-weight: bold;
+}
