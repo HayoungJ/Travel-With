@@ -14,11 +14,25 @@ const Login = ({ authService }) => {
 
   const onEmailLogin = async () => {
     const user = await authService.emailLogin(inputs.email, inputs.password);
+    localStorage.setItem(
+      'loginUser',
+      JSON.stringify({
+        id: user.uid,
+        name: user.displayName,
+      })
+    );
     user && goToSelect({ name: user.displayName, id: user.uid });
   };
 
   const onSnsLogin = async (event) => {
     const user = await authService.snsLogin(event.target.name);
+    localStorage.setItem(
+      'loginUser',
+      JSON.stringify({
+        id: user.uid,
+        name: user.displayName,
+      })
+    );
     user && goToSelect({ name: user.displayName, id: user.uid });
   };
 
