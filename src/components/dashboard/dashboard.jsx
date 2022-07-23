@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Expenses from '../expenses/expenses';
 import Header from '../header/header';
 import Map from '../map/map';
@@ -12,14 +12,18 @@ const Dashboard = ({ travelRepository, kakaoMap }) => {
   const params = useParams();
   const user = JSON.parse(localStorage.getItem('loginUser'));
 
+  const navigate = useNavigate();
+
   const [travelId, setTravelId] = useState(null);
   const [travelInfo, setTravelInfo] = useState({});
-  const [buttonSwitch, setButtonSwitch] = useState('setting');
+  const [buttonSwitch, setButtonSwitch] = useState('plan');
   const [map, setMap] = useState();
   const [mapMarkers, setMapMarkers] = useState({});
   const [travelNode, setTravelNode] = useState({});
   const [expensesList, setExpensesList] = useState({});
   const [editable, setEditable] = useState(false);
+  const [editableUser, setEditableUser] = useState({});
+  const [owner, setOwner] = useState('');
 
   const createMap = (container) => {
     const newMap = kakaoMap.createMap(container);
@@ -80,6 +84,23 @@ const Dashboard = ({ travelRepository, kakaoMap }) => {
     setExpensesList(updated);
   };
 
+  const removeEditor = (editor) => {
+    travelRepository.removeTravelSubData(travelId, 'editor', editor);
+    const updated = { ...editableUser };
+    delete updated[editor.id];
+    setEditableUser(updated);
+  };
+
+  const handlePlanDelete = () => {
+    travelRepository.removeTravel(travelId);
+    navigate('/select');
+  };
+
+  const handleFallOut = () => {
+    travelRepository.removeTravelSubData(travelId, 'editor', user);
+    navigate('/select');
+  };
+
   const updateTravel = (info) => {
     setTravelInfo(info);
     travelRepository.saveTravel(travelId, info);
@@ -95,9 +116,17 @@ const Dashboard = ({ travelRepository, kakaoMap }) => {
   }, [params]);
 
   useEffect(() => {
-    const editableIds = travelInfo.editor || [];
-    const editableUpdated = user && editableIds.includes(user.id);
-    setEditable(editableUpdated);
+    if (!user) return;
+    if (!Object.keys(travelInfo).includes('editor')) return;
+
+    const updatedOwner = travelInfo.owner;
+    const updatedEditableUser = travelInfo.editor;
+    const updatedEditableStatus = Object.keys(updatedEditableUser).includes(
+      user.id
+    );
+    setOwner(updatedOwner);
+    setEditable(updatedEditableStatus);
+    setEditableUser(updatedEditableUser);
   }, [user, travelInfo]);
 
   useEffect(() => {
@@ -181,7 +210,16 @@ const Dashboard = ({ travelRepository, kakaoMap }) => {
                     editable={editable}
                   />
                 ),
-                setting: <TravelSetting travelId={travelId} />,
+                setting: (
+                  <TravelSetting
+                    travelId={travelId}
+                    editableUser={editableUser}
+                    isOwner={owner === user.id}
+                    removeEditor={removeEditor}
+                    handlePlanDelete={handlePlanDelete}
+                    handleFallOut={handleFallOut}
+                  />
+                ),
               }[buttonSwitch]
             }
           </div>
