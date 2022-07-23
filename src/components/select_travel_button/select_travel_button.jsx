@@ -12,15 +12,22 @@ const SelectTravelButton = ({ handleSelect, handleSubmit }) => {
 
   return (
     <div className={styles.buttons}>
-      <button className={`${styles.button} ${styles.back}`} onClick={goToBack}>
-        뒤로가기
-      </button>
-      <button
-        className={`${styles.button} ${styles.submit}`}
-        onClick={goToTravelPlan}
-      >
-        시작하기
-      </button>
+      {handleSelect && (
+        <button
+          className={`${styles.button} ${styles.back}`}
+          onClick={goToBack}
+        >
+          뒤로가기
+        </button>
+      )}
+      {handleSubmit && (
+        <button
+          className={`${styles.button} ${styles.submit}`}
+          onClick={goToTravelPlan}
+        >
+          시작하기
+        </button>
+      )}
     </div>
   );
 };
