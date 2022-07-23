@@ -24,3 +24,7 @@
 .option:hover {
   background-color: white-blue;
 }
+
+.button-wrap {
+  width: 30rem;
+}

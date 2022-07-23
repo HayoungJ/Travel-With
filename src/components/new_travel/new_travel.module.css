@@ -49,3 +49,7 @@
 .calendar-input::placeholder {
   color: basic-black;
 }
+
+.button-wrap {
+  width: 30rem;
+}

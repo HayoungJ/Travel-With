@@ -16,3 +16,8 @@
 .input::placeholder {
   text-align: center;
 }
+
+.button-wrap {
+  width: 50rem;
+  margin-top: -1rem;
+}
