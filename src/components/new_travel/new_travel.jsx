@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import SelectTravelButton from '../select_travel_button/select_travel_button';
 import { useNavigate } from 'react-router-dom';
 
-const NewTravel = ({ travelRepository, handleSelect, userId }) => {
+const NewTravel = ({ travelRepository, handleSelect, user }) => {
   const navigate = useNavigate();
 
   const titleRef = useRef();
@@ -14,8 +14,11 @@ const NewTravel = ({ travelRepository, handleSelect, userId }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
-  const creatNewTravel = (travelId, info) => {
+  const creatNewTravel = async (travelId, info) => {
+    const travelIds = await travelRepository.getUserTravel(user.id);
+    const updated = travelIds ? [...travelIds, travelId] : [travelId];
     travelRepository.saveTravel(travelId, info);
+    travelRepository.saveUserTravel(user.id, updated);
   };
 
   const handleSubmit = () => {
@@ -24,10 +27,15 @@ const NewTravel = ({ travelRepository, handleSelect, userId }) => {
       id: travelId,
       title: titleRef.current.value,
       place: placeRef.current.value,
-      startDate: startDate.toString(),
-      endDate: endDate.toString(),
-      owner: userId,
-      editor: userId,
+      startDate: startDate && startDate.toString(),
+      endDate: endDate && endDate.toString(),
+      owner: user.id,
+      editor: {},
+    };
+    info.editor[user.id] = {
+      id: user.id,
+      name: user.name,
+      owner: true,
     };
     creatNewTravel(travelId, info);
     navigate(`/travel/${travelId}`);
@@ -78,10 +86,12 @@ const NewTravel = ({ travelRepository, handleSelect, userId }) => {
           />
         </li>
       </ul>
-      <SelectTravelButton
-        handleSelect={handleSelect}
-        handleSubmit={handleSubmit}
-      />
+      <div className={styles['button-wrap']}>
+        <SelectTravelButton
+          handleSelect={handleSelect}
+          handleSubmit={handleSubmit}
+        />
+      </div>
     </>
   );
 };
