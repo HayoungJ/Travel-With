@@ -1,4 +1,4 @@
-import { onValue, ref, remove, set } from 'firebase/database';
+import { get, onValue, ref, remove, set } from 'firebase/database';
 import { firebaseDatabase } from './firebase';
 
 class TravelRepository {
@@ -14,8 +14,10 @@ class TravelRepository {
     });
   }
 
-  removeTravelSubData(travelId, type, data) {
-    remove(ref(firebaseDatabase, `travels/${travelId}/${type}/${data.id}`));
+  saveUserTravel(userId, travelIds) {
+    set(ref(firebaseDatabase, `users/${userId}/travels`), {
+      ...travelIds,
+    });
   }
 
   syncTravel(travelId, onUpdate) {
@@ -26,6 +28,28 @@ class TravelRepository {
     });
 
     return () => stopSync;
+  }
+
+  async getTravel(travelId) {
+    try {
+      const data = await get(ref(firebaseDatabase, `travels/${travelId}`));
+      return data.val();
+    } catch {}
+  }
+
+  async getUserTravel(userId) {
+    try {
+      const data = await get(ref(firebaseDatabase, `users/${userId}/travels`));
+      return Object.values(data.val());
+    } catch {}
+  }
+
+  removeTravel(travelId) {
+    remove(ref(firebaseDatabase, `travels/${travelId}`));
+  }
+
+  removeTravelSubData(travelId, type, data) {
+    remove(ref(firebaseDatabase, `travels/${travelId}/${type}/${data.id}`));
   }
 }
 
