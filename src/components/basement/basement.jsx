@@ -1,21 +1,26 @@
 import React from 'react';
+import SelectTravelButton from '../select_travel_button/select_travel_button';
 import styles from './basement.module.css';
 
-const Basement = (props) => {
+const Basement = ({ handleSelect }) => {
+  const onClick = (event) => {
+    handleSelect(event.target.id);
+  };
+
   return (
-    <section className={styles['selection-container']}>
+    <>
       <ul className={styles.selection}>
-        <li name="type1" className={styles.option}>
+        <li id="newTravel" className={styles.option} onClick={onClick}>
           새 여행계획 만들기
         </li>
-        <li name="type2" className={styles.option}>
+        <li id="previousTravel" className={styles.option} onClick={onClick}>
           기존에 참여 중인 여행계획 확인하기
         </li>
-        <li name="type3" className={styles.option}>
+        <li id="participateTravel" className={styles.option} onClick={onClick}>
           공유받은 여행계획 참여하기
         </li>
       </ul>
-    </section>
+    </>
   );
 };
 
