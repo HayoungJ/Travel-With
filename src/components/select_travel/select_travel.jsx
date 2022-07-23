@@ -9,7 +9,6 @@ import ParticipateTravel from '../participate_travel/participate_travel';
 
 const SelectTravel = ({ authService, travelRepository }) => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [steps, setSteps] = useState({
     basement: true,
@@ -17,14 +16,12 @@ const SelectTravel = ({ authService, travelRepository }) => {
     previousTravel: false,
     participateTravel: false,
   });
-  const [userName, setUserName] = useState(
-    location.state && location.state.userInfo.name
-  );
-  const [userId, setUserId] = useState(
-    location.state && location.state.userInfo.id
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem('loginUser'))
   );
 
   const onLogout = () => {
+    localStorage.removeItem('user');
     authService.logout();
   };
 
@@ -39,32 +36,50 @@ const SelectTravel = ({ authService, travelRepository }) => {
     setSteps(stepStatus);
   };
 
+  const updateUser = (user) => {
+    setUser(user);
+    localStorage.setItem('loginUser', JSON.stringify(user));
+  };
+
   useEffect(() => {
-    authService.onAuthChange((user) => {
-      if (user) {
-        setUserName(user.displayName);
-        setUserId(user.uid);
+    authService.onAuthChange((data) => {
+      if (data) {
+        const updated = {
+          id: data.uid,
+          name: data.displayName,
+        };
+        updateUser(updated);
       } else {
         navigate('/');
       }
     });
-  });
+  }, []);
 
   return (
     <>
-      <Header onLogout={onLogout} name={userName} />
+      <Header onLogout={onLogout} name={user && user.name} />
       <section className={styles['selection-container']}>
         {steps.basement && <Basement handleSelect={handleSelect} />}
         {steps.newTravel && (
           <NewTravel
             travelRepository={travelRepository}
             handleSelect={handleSelect}
-            userId={userId}
+            user={user}
           />
         )}
-        {steps.previousTravel && <PreviousTravel handleSelect={handleSelect} />}
+        {steps.previousTravel && (
+          <PreviousTravel
+            travelRepository={travelRepository}
+            handleSelect={handleSelect}
+            user={user}
+          />
+        )}
         {steps.participateTravel && (
-          <ParticipateTravel handleSelect={handleSelect} />
+          <ParticipateTravel
+            travelRepository={travelRepository}
+            handleSelect={handleSelect}
+            user={user}
+          />
         )}
       </section>
     </>
