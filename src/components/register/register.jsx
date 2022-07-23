@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './register.module.css';
@@ -19,11 +19,17 @@ const Register = ({ authService }) => {
       inputs.email,
       inputs.password
     );
-    user && goToSelect({ name: user.displayName, id: user.uid });
+    user && saveUserInfo(user);
   };
 
-  const goToSelect = (userInfo) => {
-    navigate('/select', { state: { userInfo } });
+  const saveUserInfo = (user) => {
+    localStorage.setItem(
+      'loginUser',
+      JSON.stringify({
+        id: user.uid,
+        name: user.displayName,
+      })
+    );
   };
 
   const handleChange = (event) => {
@@ -37,6 +43,15 @@ const Register = ({ authService }) => {
     setInputs(updatedInputs);
     setIsDisabled(updatedIsDisabled);
   };
+
+  useEffect(() => {
+    authService.onAuthChange((data) => {
+      if (data) {
+        saveUserInfo(data);
+        navigate('/select');
+      }
+    });
+  });
 
   return (
     <div className={styles.container}>

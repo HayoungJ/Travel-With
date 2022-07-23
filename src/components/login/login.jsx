@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './login.module.css';
@@ -14,18 +14,17 @@ const Login = ({ authService }) => {
 
   const onEmailLogin = async () => {
     const user = await authService.emailLogin(inputs.email, inputs.password);
-    localStorage.setItem(
-      'loginUser',
-      JSON.stringify({
-        id: user.uid,
-        name: user.displayName,
-      })
-    );
-    user && goToSelect({ name: user.displayName, id: user.uid });
+    user && saveUserInfo(user);
+    navigate('/select');
   };
 
   const onSnsLogin = async (event) => {
     const user = await authService.snsLogin(event.target.name);
+    user && saveUserInfo(user);
+    navigate('/select');
+  };
+
+  const saveUserInfo = (user) => {
     localStorage.setItem(
       'loginUser',
       JSON.stringify({
@@ -33,11 +32,6 @@ const Login = ({ authService }) => {
         name: user.displayName,
       })
     );
-    user && goToSelect({ name: user.displayName, id: user.uid });
-  };
-
-  const goToSelect = (userInfo) => {
-    navigate('/select', { state: { userInfo } });
   };
 
   const handleChange = (event) => {
@@ -51,6 +45,15 @@ const Login = ({ authService }) => {
     setInputs(updatedInputs);
     setIsDisabled(updatedIsDisabled);
   };
+
+  useEffect(() => {
+    authService.onAuthChange((data) => {
+      if (data) {
+        saveUserInfo(data);
+        navigate('/select');
+      }
+    });
+  });
 
   return (
     <div className={styles.container}>
