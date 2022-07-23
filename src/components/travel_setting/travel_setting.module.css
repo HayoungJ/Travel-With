@@ -1,4 +1,5 @@
 @value dark-blue, basic-red, basic-white from '../../common/colors.css';
+@value small-font-size from '../../common/sizes.css';
 
 .setting {
   width: 100%;
@@ -58,6 +59,11 @@
 .name {
   margin-right: 1rem;
   line-height: 1rem;
+}
+
+.owner {
+  line-height: 1rem;
+  font-size: small-font-size;
 }
 
 .remove {
