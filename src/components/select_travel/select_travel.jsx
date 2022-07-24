@@ -23,6 +23,7 @@ const SelectTravel = ({ authService, travelRepository }) => {
   const onLogout = () => {
     localStorage.removeItem('user');
     authService.logout();
+    navigate('/');
   };
 
   const handleSelect = (next) => {

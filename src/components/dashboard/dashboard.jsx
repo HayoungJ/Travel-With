@@ -8,7 +8,7 @@ import Plan from '../plan/plan';
 import TravelSetting from '../travel_setting/travel_setting';
 import styles from './dashboard.module.css';
 
-const Dashboard = ({ travelRepository, kakaoMap }) => {
+const Dashboard = ({ authService, travelRepository, kakaoMap }) => {
   const params = useParams();
   const user = JSON.parse(localStorage.getItem('loginUser'));
 
@@ -24,6 +24,12 @@ const Dashboard = ({ travelRepository, kakaoMap }) => {
   const [editable, setEditable] = useState(false);
   const [editableUser, setEditableUser] = useState({});
   const [owner, setOwner] = useState('');
+
+  const onLogout = () => {
+    localStorage.removeItem('user');
+    authService.logout();
+    navigate('/');
+  };
 
   const createMap = (container) => {
     const newMap = kakaoMap.createMap(container);
@@ -144,7 +150,7 @@ const Dashboard = ({ travelRepository, kakaoMap }) => {
 
   return (
     <>
-      <Header name={user.name} />
+      <Header onLogout={onLogout} name={user.name} />
       <section className={styles.dashboard}>
         <div className={styles.container}>
           <Map
