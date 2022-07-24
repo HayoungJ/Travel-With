@@ -109,18 +109,20 @@ const Expenses = ({
             </button>
           </form>
         )}
-        <ul className={styles.body}>
-          {Object.keys(list).map((key) => (
-            <ExpensesList
-              key={list[key].id}
-              list={list[key]}
-              updateExpenses={createOrUpdateExpenses}
-              removeExpenses={removeExpenses}
-              returnNumber={returnNumber}
-              returnWithFormatAndUnit={returnWithFormatAndUnit}
-            />
-          ))}
-        </ul>
+        {Object.keys(list).length > 0 && (
+          <ul className={styles.body}>
+            {Object.keys(list).map((key) => (
+              <ExpensesList
+                key={list[key].id}
+                list={list[key]}
+                updateExpenses={createOrUpdateExpenses}
+                removeExpenses={removeExpenses}
+                returnNumber={returnNumber}
+                returnWithFormatAndUnit={returnWithFormatAndUnit}
+              />
+            ))}
+          </ul>
+        )}
       </article>
     </section>
   );
