@@ -31,6 +31,7 @@ const App = ({ authService, travelRepository, kakaoMap }) => {
             path="travel/:travelId"
             element={
               <Dashboard
+                authService={authService}
                 travelRepository={travelRepository}
                 kakaoMap={kakaoMap}
               />
