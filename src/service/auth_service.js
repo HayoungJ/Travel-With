@@ -17,7 +17,7 @@ class AuthService {
         password
       );
 
-      updateProfile(firebaseAuth.currentUser, {
+      updateProfile(userCredential.user, {
         displayName: name,
       });
 
@@ -55,9 +55,11 @@ class AuthService {
   }
 
   onAuthChange(onUserChange) {
-    onAuthStateChanged(firebaseAuth, (user) => {
+    const stopSync = onAuthStateChanged(firebaseAuth, (user) => {
       onUserChange(user);
     });
+
+    return stopSync;
   }
 
   logout() {
