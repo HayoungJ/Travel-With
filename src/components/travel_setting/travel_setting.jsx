@@ -9,7 +9,7 @@ const TravelSetting = ({
   handleFallOut,
   isOwner,
 }) => {
-  const travelLink = `http://localhost:3000/travel/${travelId}`;
+  const travelLink = `https://travel-with-53a9e.web.app/travel/${travelId}`;
 
   const onShare = () => {
     navigator.clipboard.writeText(travelLink);
