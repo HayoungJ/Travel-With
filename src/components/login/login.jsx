@@ -47,13 +47,15 @@ const Login = ({ authService }) => {
   };
 
   useEffect(() => {
-    authService.onAuthChange((data) => {
+    const stopSync = authService.onAuthChange((data) => {
       if (data) {
         saveUserInfo(data);
         navigate('/select');
       }
     });
-  });
+
+    return () => stopSync();
+  }, [authService, navigate]);
 
   return (
     <div className={styles.container}>

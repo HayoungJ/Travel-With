@@ -21,8 +21,8 @@ const SelectTravel = ({ authService, travelRepository }) => {
   );
 
   const onLogout = () => {
-    localStorage.removeItem('loginUser');
     authService.logout();
+    localStorage.removeItem('loginUser');
     navigate('/');
   };
 
@@ -43,22 +43,25 @@ const SelectTravel = ({ authService, travelRepository }) => {
   };
 
   useEffect(() => {
-    authService.onAuthChange((data) => {
+    const stopSync = authService.onAuthChange((data) => {
       if (data) {
         const updated = {
           id: data.uid,
           name: data.displayName,
         };
-        updateUser(updated);
+        !user && updateUser(updated);
       } else {
+        localStorage.removeItem('loginUser');
         navigate('/');
       }
     });
+
+    return () => stopSync();
   }, [authService, navigate]);
 
   return (
     <>
-      <Header onLogout={onLogout} name={user && user.name} />
+      <Header onLogout={onLogout} name={user.name} />
       <section className={styles['selection-container']}>
         {steps.basement && <Basement handleSelect={handleSelect} />}
         {steps.newTravel && (
