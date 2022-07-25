@@ -26,7 +26,7 @@ const Dashboard = ({ authService, travelRepository, kakaoMap }) => {
   const [owner, setOwner] = useState('');
 
   const onLogout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('loginUser');
     authService.logout();
     navigate('/');
   };
@@ -156,7 +156,7 @@ const Dashboard = ({ authService, travelRepository, kakaoMap }) => {
 
   return (
     <>
-      <Header onLogout={onLogout} name={user.name} />
+      <Header onLogout={onLogout} name={user && user.name} />
       <section className={styles.dashboard}>
         <div className={styles.container}>
           <Map
@@ -226,7 +226,7 @@ const Dashboard = ({ authService, travelRepository, kakaoMap }) => {
                   <TravelSetting
                     travelId={travelId}
                     editableUser={editableUser}
-                    isOwner={owner === user.id}
+                    isOwner={user && owner === user.id ? user.id : ''}
                     removeEditor={removeEditor}
                     handlePlanDelete={handlePlanDelete}
                     handleFallOut={handleFallOut}

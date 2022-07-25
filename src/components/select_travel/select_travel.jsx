@@ -21,7 +21,7 @@ const SelectTravel = ({ authService, travelRepository }) => {
   );
 
   const onLogout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('loginUser');
     authService.logout();
     navigate('/');
   };
