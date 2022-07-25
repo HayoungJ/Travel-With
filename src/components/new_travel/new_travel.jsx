@@ -49,7 +49,7 @@ const NewTravel = ({ travelRepository, handleSelect, user }) => {
             ref={titleRef}
             className={styles.input}
             type="text"
-            placeholder="여행 계획 이름"
+            placeholder="여행 이름"
           />
         </li>
         <li className={styles.option}>
