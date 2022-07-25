@@ -14,20 +14,22 @@ const Header = ({ onLogout, profileUrl, name }) => {
       <h1 className={styles.logo}>
         <span className="logo-style">Travel With</span>
       </h1>
-      <section className={styles.menu}>
-        <div className={styles.profile} onClick={handleClick}>
-          {profileUrl ? (
-            <img className={styles.image} src={profileUrl} alt="profile" />
-          ) : (
-            <div className={styles.name}>{name ? name[0] : '?'}</div>
-          )}
-        </div>
-        <nav className={`${styles.nav} ${!isVisible && styles.hidden}`}>
-          <button className={styles.button} onClick={onLogout}>
-            로그아웃
-          </button>
-        </nav>
-      </section>
+      {name && (
+        <section className={styles.menu}>
+          <div className={styles.profile} onClick={handleClick}>
+            {profileUrl ? (
+              <img className={styles.image} src={profileUrl} alt="profile" />
+            ) : (
+              <div className={styles.name}>{name ? name[0] : '?'}</div>
+            )}
+          </div>
+          <nav className={`${styles.nav} ${!isVisible && styles.hidden}`}>
+            <button className={styles.button} onClick={onLogout}>
+              로그아웃
+            </button>
+          </nav>
+        </section>
+      )}
     </header>
   );
 };
