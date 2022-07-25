@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import AddTravelNode from '../add_travel_node/add_travel_node';
 import EditTravelNode from '../edit_travel_node/edit_travel_node';
 import styles from './plan.module.css';

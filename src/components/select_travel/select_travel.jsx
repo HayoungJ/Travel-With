@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from '../header/header';
 import styles from './select_travel.module.css';
 import Basement from '../basement/basement';
@@ -54,7 +54,7 @@ const SelectTravel = ({ authService, travelRepository }) => {
         navigate('/');
       }
     });
-  }, []);
+  }, [authService, navigate]);
 
   return (
     <>

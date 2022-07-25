@@ -1,5 +1,4 @@
 import React from 'react';
-import SelectTravelButton from '../select_travel_button/select_travel_button';
 import styles from './basement.module.css';
 
 const Basement = ({ handleSelect }) => {

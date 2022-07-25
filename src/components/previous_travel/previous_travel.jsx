@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SelectTravelButton from '../select_travel_button/select_travel_button';
 import styles from './previous_travel.module.css';
@@ -8,7 +9,7 @@ const PreviousTravel = ({ handleSelect, travelRepository, user }) => {
 
   const [travelList, setTravelList] = useState([]);
 
-  const getTravelTitleList = async () => {
+  const getTravelTitleList = useCallback(async () => {
     const data = await travelRepository.getUserTravel(user.id);
 
     data.forEach(async (element) => {
@@ -20,7 +21,7 @@ const PreviousTravel = ({ handleSelect, travelRepository, user }) => {
         return updated;
       });
     });
-  };
+  }, [travelRepository, user.id]);
 
   const onClick = (id) => {
     navigate(`/travel/${id}`);
@@ -28,7 +29,7 @@ const PreviousTravel = ({ handleSelect, travelRepository, user }) => {
 
   useEffect(() => {
     getTravelTitleList();
-  }, []);
+  }, [getTravelTitleList]);
 
   return (
     <>

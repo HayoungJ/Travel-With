@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Expenses from '../expenses/expenses';
@@ -31,14 +31,20 @@ const Dashboard = ({ authService, travelRepository, kakaoMap }) => {
     navigate('/');
   };
 
-  const createMap = (container) => {
-    const newMap = kakaoMap.createMap(container);
-    setMap(newMap);
-  };
+  const createMap = useCallback(
+    (container) => {
+      const newMap = kakaoMap.createMap(container);
+      setMap(newMap);
+    },
+    [kakaoMap]
+  );
 
-  const repositionMap = (place) => {
-    place && kakaoMap.repositionMap(map, place);
-  };
+  const repositionMap = useCallback(
+    (place) => {
+      place && kakaoMap.repositionMap(map, place);
+    },
+    [kakaoMap, map]
+  );
 
   const searchAtMap = (keyword, handleMarkerSelect) => {
     keyword && kakaoMap.search(map, keyword, handleMarkerSelect);

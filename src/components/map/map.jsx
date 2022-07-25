@@ -11,11 +11,11 @@ const Map = ({
 }) => {
   useEffect(() => {
     createMap('kakaoMap');
-  }, []);
+  }, [createMap]);
 
   useEffect(() => {
     repositionMap(travelInfo.place);
-  }, [travelInfo.place]);
+  }, [repositionMap, travelInfo.place]);
 
   return (
     <section className={styles['map-wrap']}>
