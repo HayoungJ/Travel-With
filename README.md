@@ -8,7 +8,7 @@
 내 힘으로 하나의 사이트를 완성시켜 보는 것
 
 ## 프로젝트 배포 링크
-https://travel-with-53a9e.web.app/ <br/>
+<a href="https://travel-with-53a9e.web.app/" target="_blank">https://travel-with-53a9e.web.app/</a> <br/>
 테스트 가능한 아이디 : test@test.com / helloworld <br/>
 예시 링크 : https://travel-with-53a9e.web.app/travel/1658748510969 <br/>
 
