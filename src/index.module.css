@@ -1,5 +1,5 @@
 @value basic-font-size, mobile-font-size from './common/sizes.css';
-@value basic-black, logo-gradient from './common/colors.css';
+@value basic-black, basic-white, logo-gradient from './common/colors.css';
 
 body {
   margin: 0;
@@ -26,6 +26,7 @@ input {
 }
 
 input:disabled {
+  background-color: basic-white;
   color: basic-black;
 }
 
