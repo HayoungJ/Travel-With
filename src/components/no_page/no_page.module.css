@@ -1,0 +1,21 @@
+@value dark-blue, basic-white from '../../common/colors.css';
+
+.section {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.text {
+  border: 1px solid dark-blue;
+  padding: 3rem 5rem;
+  text-align: center;
+}
+
+.button {
+  background-color: dark-blue;
+  color: basic-white;
+  margin-top: 1rem;
+  padding: 0.5rem 2rem;
+  border: 0;
+}
