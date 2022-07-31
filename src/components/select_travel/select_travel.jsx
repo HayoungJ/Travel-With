@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../header/header';
 import styles from './select_travel.module.css';
 import Basement from '../basement/basement';
@@ -9,6 +9,7 @@ import ParticipateTravel from '../participate_travel/participate_travel';
 
 const SelectTravel = ({ authService, travelRepository }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [steps, setSteps] = useState({
     basement: true,
@@ -16,13 +17,11 @@ const SelectTravel = ({ authService, travelRepository }) => {
     previousTravel: false,
     participateTravel: false,
   });
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem('loginUser'))
-  );
+  const [userId, setUserId] = useState(location?.state?.id || '');
+  const [userName, setUserName] = useState(location?.state?.name || '');
 
   const onLogout = () => {
     authService.logout();
-    localStorage.removeItem('loginUser');
     navigate('/');
   };
 
@@ -37,52 +36,57 @@ const SelectTravel = ({ authService, travelRepository }) => {
     setSteps(stepStatus);
   };
 
-  const updateUser = (user) => {
-    setUser(user);
-    localStorage.setItem('loginUser', JSON.stringify(user));
+  const updateUser = (id, name) => {
+    setUserId(id);
+    setUserName(name);
+  };
+
+  const goToDashboard = (travelId) => {
+    navigate(`/travel/${travelId}`, { state: { id: userId, name: userName } });
   };
 
   useEffect(() => {
     const stopSync = authService.onAuthChange((data) => {
       if (data) {
-        const updated = {
-          id: data.uid,
-          name: data.displayName,
-        };
-        !user && updateUser(updated);
+        data.uid !== userId && updateUser(data.uid, data.displayName);
       } else {
-        localStorage.removeItem('loginUser');
         navigate('/');
       }
     });
 
     return () => stopSync();
-  }, [authService, navigate]);
+  });
 
   return (
     <>
-      <Header onLogout={onLogout} name={user.name} />
+      <Header onLogout={onLogout} id={userName} name={userName} />
       <section className={styles['selection-container']}>
         {steps.basement && <Basement handleSelect={handleSelect} />}
         {steps.newTravel && (
           <NewTravel
             travelRepository={travelRepository}
             handleSelect={handleSelect}
-            user={user}
+            goToDashboard={goToDashboard}
+            userId={userId}
+            userName={userName}
           />
         )}
         {steps.previousTravel && (
           <PreviousTravel
             travelRepository={travelRepository}
             handleSelect={handleSelect}
-            user={user}
+            goToDashboard={goToDashboard}
+            userId={userId}
+            userName={userName}
           />
         )}
         {steps.participateTravel && (
           <ParticipateTravel
             travelRepository={travelRepository}
             handleSelect={handleSelect}
-            user={user}
+            goToDashboard={goToDashboard}
+            userId={userId}
+            userName={userName}
           />
         )}
       </section>
