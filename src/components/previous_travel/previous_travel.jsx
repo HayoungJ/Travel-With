@@ -1,33 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import SelectTravelButton from '../select_travel_button/select_travel_button';
 import styles from './previous_travel.module.css';
 
-const PreviousTravel = ({ handleSelect, travelRepository, user }) => {
-  const navigate = useNavigate();
-
+const PreviousTravel = ({
+  travelRepository,
+  handleSelect,
+  goToDashboard,
+  userId,
+}) => {
   const [travelList, setTravelList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getTravelTitleList = useCallback(async () => {
-    const data = await travelRepository.getUserTravel(user.id);
+    setIsLoading(true);
 
-    data.forEach(async (element) => {
-      const travelInfo = await travelRepository.getTravel(element);
+    const data = await travelRepository.getUserTravel(userId);
 
-      setTravelList((travelList) => {
-        const updated = [...travelList];
-        updated.push({ title: travelInfo.title, id: travelInfo.id });
-        return updated;
-      });
+    data.forEach(async (travelId) => {
+      const stopSync = await travelRepository.syncTravel(
+        travelId,
+        (data) => {
+          setTravelList((travelList) => {
+            const updated = [...travelList];
+            updated.push({ title: data.title, id: data.id });
+            return updated;
+          });
+        },
+        () => {}
+      );
+
+      stopSync();
     });
-  }, [travelRepository, user.id]);
 
-  const onClick = (id) => {
-    navigate(`/travel/${id}`);
+    setIsLoading(false);
+  }, [travelRepository, userId]);
+
+  const onClick = (travelId) => {
+    goToDashboard(travelId);
   };
 
   useEffect(() => {
+    setTravelList([]);
     getTravelTitleList();
   }, [getTravelTitleList]);
 
@@ -44,6 +58,7 @@ const PreviousTravel = ({ handleSelect, travelRepository, user }) => {
               {info.title}
             </li>
           ))}
+        {isLoading && <li className={styles.loading}></li>}
       </ul>
       <div className={styles['button-wrap']}>
         <SelectTravelButton handleSelect={handleSelect} />
