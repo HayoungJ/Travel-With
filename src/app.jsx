@@ -4,6 +4,7 @@ import Login from './components/login/login';
 import Dashboard from './components/dashboard/dashboard';
 import Register from './components/register/register';
 import SelectTravel from './components/select_travel/select_travel';
+import NoPage from './components/no_page/no_page';
 
 const App = ({ authService, travelRepository, kakaoMap }) => {
   return (
@@ -13,7 +14,7 @@ const App = ({ authService, travelRepository, kakaoMap }) => {
           <Route exact path="/" element={<Login authService={authService} />} />
           <Route
             exact
-            path="/register"
+            path="register"
             element={<Register authService={authService} />}
           />
           <Route
@@ -36,6 +37,7 @@ const App = ({ authService, travelRepository, kakaoMap }) => {
               />
             }
           />
+          <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
     </div>
