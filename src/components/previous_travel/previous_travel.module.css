@@ -1,4 +1,4 @@
-@value light-blue, white-blue from '../../common/colors.css';
+@value light-blue, white-bluem, light-grey from '../../common/colors.css';
 
 .selection {
   width: 30rem;
@@ -27,4 +27,23 @@
 
 .button-wrap {
   width: 30rem;
+}
+
+.loading {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 3px solid light-grey;
+  border-top: 3px solid light-blue;
+  animation: spin 2s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
