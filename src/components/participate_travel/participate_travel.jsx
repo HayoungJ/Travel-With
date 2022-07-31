@@ -1,29 +1,45 @@
 import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import SelectTravelButton from '../select_travel_button/select_travel_button';
 import styles from './participate_travel.module.css';
 
-const ParticipateTravel = ({ travelRepository, handleSelect, user }) => {
+const ParticipateTravel = ({
+  travelRepository,
+  handleSelect,
+  goToDashboard,
+  userId,
+  userName,
+}) => {
   const linkRef = useRef();
-
-  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     const travelId = linkRef.current.value.slice(-13);
-    const travelCheck = await travelRepository.getTravel(travelId);
 
-    if (!travelCheck) {
-      alert('존재하지 않는 여행 계획입니다.');
+    if (travelId.match(/[^0-9]/)) {
+      alert('잘못된 링크입니다.');
       return;
     }
 
-    travelRepository.saveTravelSubData(travelId, 'editor', user);
+    const stopSync = await travelRepository.syncTravel(
+      travelId,
+      async () => {
+        travelRepository.saveTravelSubData(travelId, 'editor', {
+          id: userId,
+          name: userName,
+          owner: false,
+        });
 
-    const travelIds = await travelRepository.getUserTravel(user.id);
-    const updated = travelIds ? [...travelIds, travelId] : [travelId];
-    travelRepository.saveUserTravel(user.id, updated);
+        const travelIds = await travelRepository.getUserTravel(userId);
+        const updated = travelIds ? [...travelIds, travelId] : [travelId];
+        await travelRepository.saveUserTravel(userId, updated);
 
-    navigate(`/travel/${travelId}`);
+        goToDashboard(travelId);
+      },
+      () => {
+        alert('존재하지 않는 여행 계획입니다.');
+      }
+    );
+
+    stopSync();
   };
 
   return (
