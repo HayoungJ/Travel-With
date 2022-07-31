@@ -24,20 +24,16 @@ class TravelRepository {
     const stopSync = onValue(
       ref(firebaseDatabase, `travels/${travelId}`),
       (snapshot) => {
-        const data = snapshot.val();
-        data && onUpdate(data);
-        !data && onNoData();
+        if (!snapshot.hasChild('id')) {
+          onNoData();
+          return;
+        }
+
+        onUpdate(snapshot.val());
       }
     );
 
     return () => stopSync;
-  }
-
-  async getTravel(travelId) {
-    try {
-      const data = await get(ref(firebaseDatabase, `travels/${travelId}`));
-      return data.val();
-    } catch {}
   }
 
   async getUserTravel(userId) {
@@ -53,6 +49,12 @@ class TravelRepository {
 
   removeTravelSubData(travelId, type, data) {
     remove(ref(firebaseDatabase, `travels/${travelId}/${type}/${data.id}`));
+  }
+
+  async removeUserTravel(userId, travelId) {
+    const data = await this.getUserTravel(userId);
+    const updated = data ? data.filter((element) => element !== travelId) : [];
+    this.saveUserTravel(userId, updated);
   }
 }
 
