@@ -20,12 +20,15 @@ class TravelRepository {
     });
   }
 
-  syncTravel(travelId, onUpdate) {
-    const travelRef = ref(firebaseDatabase, `travels/${travelId}`);
-    const stopSync = onValue(travelRef, (snapshot) => {
-      const data = snapshot.val();
-      data && onUpdate(data);
-    });
+  syncTravel(travelId, onUpdate, onNoData) {
+    const stopSync = onValue(
+      ref(firebaseDatabase, `travels/${travelId}`),
+      (snapshot) => {
+        const data = snapshot.val();
+        data && onUpdate(data);
+        !data && onNoData();
+      }
+    );
 
     return () => stopSync;
   }
