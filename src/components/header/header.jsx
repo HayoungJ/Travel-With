@@ -1,8 +1,8 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './header.module.css';
 
-const Header = ({ onLogout, profileUrl, name }) => {
+const Header = ({ onLogout, profileUrl, id, name }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleClick = () => {
@@ -12,9 +12,11 @@ const Header = ({ onLogout, profileUrl, name }) => {
   return (
     <header className={styles.header}>
       <h1 className={styles.logo}>
-        <span className="logo-style">Travel With</span>
+        <Link to="/select" className="logo-style">
+          Travel With
+        </Link>
       </h1>
-      {name && (
+      {id && (
         <section className={styles.menu}>
           <div className={styles.profile} onClick={handleClick}>
             {profileUrl ? (
