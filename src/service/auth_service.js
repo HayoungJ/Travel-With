@@ -96,7 +96,7 @@ class AuthService {
       case 'auth/user-not-found':
         return '가입되지 않은 이메일 입니다.';
       default:
-        return `현재 회원가입이 불가능합니다. 사이트 제작자에게 문의해 주세요. Error Code: ${error}`;
+        return `현재 로그인 및 회원가입이 불가능합니다. 사이트 제작자에게 문의해 주세요. Error Code: ${error}`;
     }
   }
 }
