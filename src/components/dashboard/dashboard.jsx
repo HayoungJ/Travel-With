@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Expenses from '../expenses/expenses';
 import Header from '../header/header';
 import Map from '../map/map';
@@ -10,11 +10,13 @@ import styles from './dashboard.module.css';
 
 const Dashboard = ({ authService, travelRepository, kakaoMap }) => {
   const params = useParams();
-  const user = JSON.parse(localStorage.getItem('loginUser'));
-
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [travelId, setTravelId] = useState(null);
+  const travelId = params.travelId;
+
+  const [userId, setUserId] = useState(location?.state?.id || '');
+  const [userName, setUserName] = useState(location?.state?.name || '');
   const [travelInfo, setTravelInfo] = useState({});
   const [buttonSwitch, setButtonSwitch] = useState('plan');
   const [map, setMap] = useState();
@@ -26,9 +28,7 @@ const Dashboard = ({ authService, travelRepository, kakaoMap }) => {
   const [owner, setOwner] = useState('');
 
   const onLogout = () => {
-    localStorage.removeItem('loginUser');
     authService.logout();
-    navigate('/');
   };
 
   const createMap = useCallback(
@@ -104,12 +104,16 @@ const Dashboard = ({ authService, travelRepository, kakaoMap }) => {
   };
 
   const handlePlanDelete = () => {
+    Object.keys(editableUser).forEach((userId) => {
+      travelRepository.removeUserTravel(userId, travelId);
+    });
     travelRepository.removeTravel(travelId);
     navigate('/select');
   };
 
   const handleFallOut = () => {
-    travelRepository.removeTravelSubData(travelId, 'editor', user);
+    travelRepository.removeTravelSubData(travelId, 'editor', { id: userId });
+    travelRepository.removeUserTravel(userId, travelId);
     navigate('/select');
   };
 
@@ -124,39 +128,55 @@ const Dashboard = ({ authService, travelRepository, kakaoMap }) => {
   };
 
   useEffect(() => {
-    setTravelId(params.travelId);
-  }, [params]);
-
-  useEffect(() => {
-    if (!user) return;
     if (!Object.keys(travelInfo).includes('editor')) return;
+
+    if (!userId) {
+      setEditable(false);
+      return;
+    }
 
     const updatedOwner = travelInfo.owner;
     const updatedEditableUser = travelInfo.editor;
-    const updatedEditableStatus = Object.keys(updatedEditableUser).includes(
-      user.id
-    );
+    const updatedEditableStatus =
+      Object.keys(updatedEditableUser).includes(userId);
     setOwner(updatedOwner);
     setEditable(updatedEditableStatus);
     setEditableUser(updatedEditableUser);
-  }, [user, travelInfo]);
+  }, [userId, travelInfo]);
 
   useEffect(() => {
-    if (!travelId) {
-      return;
-    }
-    const stopSync = travelRepository.syncTravel(travelId, (data) => {
-      data && setTravelInfo(data);
-      data.nodes && setTravelNode(data.nodes);
-      data.expenses && setExpensesList(data.expenses);
-    });
+    const stopSync = travelRepository.syncTravel(
+      travelId,
+      (data) => {
+        setTravelInfo(data);
+        data.nodes && setTravelNode(data.nodes);
+        data.expenses && setExpensesList(data.expenses);
+      },
+      () => {
+        navigate('/404-not-found');
+      }
+    );
 
     return () => stopSync;
-  }, [travelId, travelRepository]);
+  }, [navigate, travelId, travelRepository]);
+
+  useEffect(() => {
+    const stopSync = authService.onAuthChange((user) => {
+      if (user) {
+        setUserId(user.uid);
+        setUserName(user.displayName);
+      } else {
+        setUserId(null);
+        setUserName(null);
+      }
+    });
+
+    return () => stopSync();
+  });
 
   return (
     <>
-      <Header onLogout={onLogout} name={user && user.name} />
+      <Header onLogout={onLogout} id={userId} name={userName} />
       <section className={styles.dashboard}>
         <div className={styles.container}>
           <Map
@@ -226,7 +246,7 @@ const Dashboard = ({ authService, travelRepository, kakaoMap }) => {
                   <TravelSetting
                     travelId={travelId}
                     editableUser={editableUser}
-                    isOwner={user && owner === user.id ? user.id : ''}
+                    isOwner={owner === userId ? true : false}
                     removeEditor={removeEditor}
                     handlePlanDelete={handlePlanDelete}
                     handleFallOut={handleFallOut}
