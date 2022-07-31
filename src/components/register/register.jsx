@@ -23,7 +23,6 @@ const Register = ({ authService }) => {
 
   const goToSelect = (user) => {
     const name = user.displayName || nameRef.current.value;
-    console.log(name);
     navigate('/select', { state: { id: user.uid, name: name } });
   };
 
