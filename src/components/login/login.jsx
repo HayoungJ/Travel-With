@@ -1,61 +1,49 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './login.module.css';
 
 const Login = ({ authService }) => {
   const navigate = useNavigate();
 
-  const [inputs, setInputs] = useState({
-    email: '',
-    password: '',
-  });
-  const [isDisabled, setIsDisabled] = useState(true);
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const buttonRef = useRef();
 
-  const onEmailLogin = async () => {
-    const user = await authService.emailLogin(inputs.email, inputs.password);
-    user && saveUserInfo(user);
-    navigate('/select');
+  const onEmailLogin = async (event) => {
+    event.preventDefault();
+
+    const user = await authService.emailLogin(
+      emailRef.current.value,
+      passwordRef.current.value
+    );
+    user && goToSelect(user);
   };
 
   const onSnsLogin = async (event) => {
     const user = await authService.snsLogin(event.target.name);
-    user && saveUserInfo(user);
-    navigate('/select');
+    user && goToSelect(user);
   };
 
-  const saveUserInfo = (user) => {
-    localStorage.setItem(
-      'loginUser',
-      JSON.stringify({
-        id: user.uid,
-        name: user.displayName,
-      })
-    );
+  const goToSelect = (user) => {
+    const name = user.displayName || '';
+    navigate('/select', { state: { id: user.uid, name: name } });
   };
 
   const handleChange = (event) => {
     event.target.value = event.target.value.trim();
-    const updatedInputs = { ...inputs };
-    updatedInputs[event.target.name] = event.target.value;
-    const updatedIsDisabled =
-      updatedInputs.email === '' || updatedInputs.password === ''
-        ? true
-        : false;
-    setInputs(updatedInputs);
-    setIsDisabled(updatedIsDisabled);
+
+    const buttonDisabled =
+      !emailRef.current.value || !passwordRef.current.value;
+    buttonRef.current.disabled = buttonDisabled;
   };
 
   useEffect(() => {
     const stopSync = authService.onAuthChange((data) => {
-      if (data) {
-        saveUserInfo(data);
-        navigate('/select');
-      }
+      data && goToSelect(data);
     });
 
     return () => stopSync();
-  }, [authService, navigate]);
+  });
 
   return (
     <div className={styles.container}>
@@ -63,8 +51,9 @@ const Login = ({ authService }) => {
         <h1 className={styles.logo}>
           <span className={'logo-style'}>Travel With</span>
         </h1>
-        <section className={styles.login}>
+        <form className={styles.login} onSubmit={onEmailLogin}>
           <input
+            ref={emailRef}
             className={styles.input}
             name="email"
             type="text"
@@ -72,6 +61,7 @@ const Login = ({ authService }) => {
             onChange={handleChange}
           />
           <input
+            ref={passwordRef}
             className={styles.input}
             name="password"
             type="password"
@@ -79,16 +69,17 @@ const Login = ({ authService }) => {
             onChange={handleChange}
           />
           <button
+            ref={buttonRef}
             className={styles.button}
-            onClick={onEmailLogin}
-            disabled={isDisabled}
+            type="submit"
+            disabled={true}
           >
             로그인
           </button>
           <Link to="register" className={styles['link-button']}>
             아직 계정이 없으신가요?
           </Link>
-        </section>
+        </form>
         <section className={styles.sns}>
           <ul className={styles['sns-container']}>
             <li>
