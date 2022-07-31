@@ -17,12 +17,13 @@ class AuthService {
         password
       );
 
-      updateProfile(userCredential.user, {
+      await updateProfile(userCredential.user, {
         displayName: name,
       });
 
       return userCredential.user;
     } catch (error) {
+      console.clear();
       alert(this.defineError(error.code));
     }
   }
@@ -37,6 +38,7 @@ class AuthService {
 
       return userCredential.user;
     } catch (error) {
+      console.clear();
       alert(this.defineError(error.code));
     }
   }
@@ -50,6 +52,7 @@ class AuthService {
 
       return userCredential.user;
     } catch (error) {
+      console.clear();
       alert(this.defineError(error.code));
     }
   }
