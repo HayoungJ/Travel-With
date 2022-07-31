@@ -3,11 +3,14 @@ import DatePicker from 'react-datepicker';
 import styles from './new_travel.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import SelectTravelButton from '../select_travel_button/select_travel_button';
-import { useNavigate } from 'react-router-dom';
 
-const NewTravel = ({ travelRepository, handleSelect, user }) => {
-  const navigate = useNavigate();
-
+const NewTravel = ({
+  travelRepository,
+  handleSelect,
+  goToDashboard,
+  userId,
+  userName,
+}) => {
   const titleRef = useRef();
   const placeRef = useRef();
 
@@ -15,13 +18,13 @@ const NewTravel = ({ travelRepository, handleSelect, user }) => {
   const [endDate, setEndDate] = useState(null);
 
   const creatNewTravel = async (travelId, info) => {
-    const travelIds = await travelRepository.getUserTravel(user.id);
+    const travelIds = await travelRepository.getUserTravel(userId);
     const updated = travelIds ? [...travelIds, travelId] : [travelId];
     travelRepository.saveTravel(travelId, info);
-    travelRepository.saveUserTravel(user.id, updated);
+    travelRepository.saveUserTravel(userId, updated);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const travelId = Date.now().toString();
     const info = {
       id: travelId,
@@ -29,16 +32,16 @@ const NewTravel = ({ travelRepository, handleSelect, user }) => {
       place: placeRef.current.value,
       startDate: startDate && startDate.toString(),
       endDate: endDate && endDate.toString(),
-      owner: user.id,
+      owner: userId,
       editor: {},
     };
-    info.editor[user.id] = {
-      id: user.id,
-      name: user.name,
+    info.editor[userId] = {
+      id: userId,
+      name: userName,
       owner: true,
     };
-    creatNewTravel(travelId, info);
-    navigate(`/travel/${travelId}`);
+    await creatNewTravel(travelId, info);
+    goToDashboard(travelId);
   };
 
   return (
